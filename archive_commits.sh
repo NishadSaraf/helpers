@@ -12,10 +12,10 @@ branches=("master"
 	  "rel-v2020.1" "rel-v2020.2" "rel-v2021.1"
 	  "master"
 )
-component=("User-space/baremetal driver"
+component=("Userspace driver"
 	   "Linux kernel"
 	   "Linux device tree generator"
-	   "Petalinux App" "Petalinux App" "Petalinux App"
+	   "Petalinux application" "Petalinux application" "Petalinux application"
 	   "Yocto"
 )
 
@@ -49,7 +49,7 @@ create_commit_mds () {
 	echo "[INFO]: Leaving ${PWD} directory"
 	popd
 	pushd ${commits_dir}
-	split -d -l 10 log --additional-suffix=.md ${1}_${2}_
+	split -d -l 9 log --additional-suffix=.md ${1}_${2}_
 	rm log
 	echo "[INFO]: Leaving ${PWD} directory"
 	popd
@@ -63,7 +63,7 @@ main () {
 	pushd repo
 	for ((r = 0; r < ${#repos[@]}; r++ ));
 	do
-		create_commit_mds ${repos[$r]} ${branches[$r]} ${component[$r]}
+		create_commit_mds ${repos[$r]} ${branches[$r]} "${component[$r]}"
 	done
 	echo "[INFO]: Leaving ${PWD} directory"
 	popd
