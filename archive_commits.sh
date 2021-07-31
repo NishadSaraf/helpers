@@ -2,11 +2,21 @@ author="nishad.saraf"
 commits_dir=${PWD}/commits
 repos=( "embeddedsw"
 	"linux-xlnx"
+	"device-tree-xlnx"
 	"plnx-aie-examples" "plnx-aie-examples" "plnx-aie-examples"
+	"meta-petalinux"
 )
 branches=("master"
 	  "master"
+	  "master"
 	  "rel-v2020.1" "rel-v2020.2" "rel-v2021.1"
+	  "master"
+)
+component=("User-space/baremetal driver"
+	   "Linux kernel"
+	   "Linux device tree generator"
+	   "Petalinux App" "Petalinux App" "Petalinux App"
+	   "Yocto"
 )
 
 pushd () {
@@ -23,7 +33,7 @@ create_commit_mds () {
 	message+="title: '%s'%n"
 	message+="github: 'https://github.com/Xilinx/${1}/commit/%H'%n"
 	message+="external: ''%n"
-	message+="tech:%n- C%n"
+	message+="component: '${3}'%n"
 	message+="company: 'Xilinx'%n"
 	message+="showInProjects: false%n"
 	message+="---"
@@ -53,10 +63,11 @@ main () {
 	pushd repo
 	for ((r = 0; r < ${#repos[@]}; r++ ));
 	do
-		create_commit_mds ${repos[$r]} ${branches[$r]}
+		create_commit_mds ${repos[$r]} ${branches[$r]} ${component[$r]}
 	done
 	echo "[INFO]: Leaving ${PWD} directory"
 	popd
+	cp -r misc_commits/* ${commits_dir}
 }
 
 main
