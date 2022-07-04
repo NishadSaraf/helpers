@@ -1,12 +1,14 @@
-author="nishad.saraf"
+author=("nishad.saraf"
+	"nishads"
+)
 commits_dir=${PWD}/commits
-repos=( "embeddedsw"
+repos=( "aie-rt"
 	"linux-xlnx"
 	"device-tree-xlnx"
 	"plnx-aie-examples" "plnx-aie-examples" "plnx-aie-examples"
 	"meta-petalinux"
 )
-branches=("master"
+branches=("xlnx_rel_v2022.1"
 	  "master"
 	  "master"
 	  "rel-v2020.1" "rel-v2020.2" "rel-v2021.1"
@@ -44,7 +46,7 @@ create_commit_mds () {
 	echo "[INFO]: Fetching commits from ${2} branch of ${1} repo"
 	git fetch origin
 	git reset --hard origin/${2}
-	git --no-pager log --author=${author} --pretty="format:${message}" >   \
+	git --no-pager log --author=${4} --pretty="format:${message}" >   \
 	    ${commits_dir}/log
 	echo "[INFO]: Leaving ${PWD} directory"
 	popd
@@ -63,7 +65,11 @@ main () {
 	pushd repo
 	for ((r = 0; r < ${#repos[@]}; r++ ));
 	do
-		create_commit_mds ${repos[$r]} ${branches[$r]} "${component[$r]}"
+		for ((a = 0; a < ${#author[@]}; a++ ));
+		do
+			create_commit_mds ${repos[$r]} ${branches[$r]}	\
+			"${component[$r]}" "${author[$a]}"
+		done
 	done
 	echo "[INFO]: Leaving ${PWD} directory"
 	popd
