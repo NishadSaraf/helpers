@@ -89,7 +89,7 @@ create_commit_mds () {
 	
 	message="---%n"
 	message+="date: '%as'%n"
-	message+="title: '%s'%n"
+	message+="title: \"%s\"%n"
 	message+="github: 'https://github.com/${org_repo}/commit/%H'%n"
 	message+="external: ''%n"
 	message+="component: '${3}'%n"
